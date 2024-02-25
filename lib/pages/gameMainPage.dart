@@ -8,7 +8,6 @@ import 'package:make_my_life/pages/gamblingPage.dart';
 import 'package:make_my_life/pages/registerPage.dart';
 import '../common/myButton.dart';
 import '../common/myWord.dart';
-// import 'register.dart';
 
 /// ゲームメイン
 class GameMainPage extends StatefulWidget {
@@ -44,8 +43,8 @@ class MyGameMain extends FlameGame {
   // 背景
   MyWorld? myWorld = null;
 
-  // 利金利調整ボタン
-  MyButton? interestRateButton = null;
+  // 設定ボタン
+  MyButton? settingButton = null;
 
   // 外貨調整ボタン
   MyButton? foreignCurrencyButton = null;
@@ -77,14 +76,14 @@ class MyGameMain extends FlameGame {
 
     // 背景を追加
     myWorld = MyWorld('back.png', viewSize);
-    await add(world!);
+    await add(myWorld!);
 
-    // 金利調整ボタンを追加する
-    interestRateButton = MyButton("crate.png", "mushi.png", "\n金利調整",
+    // 設定ボタンを追加する
+    settingButton = MyButton("crate.png", "mushi.png", "\n設定",
         Vector2.all(100.0), onPushMenuPressed);
-    interestRateButton!.GetPos(new Vector2(viewSize.width / 2 - 150, 500));
-    interestRateButton!.GetAnchor(Anchor.bottomCenter);
-    await add(interestRateButton!);
+    settingButton!.GetPos(new Vector2(viewSize.width / 2 - 150, 500));
+    settingButton!.GetAnchor(Anchor.bottomCenter);
+    await add(settingButton!);
 
     // 外貨ボタンを追加する
     foreignCurrencyButton = MyButton("shiba.png", "crate.png", "\n外貨調整",
@@ -111,8 +110,8 @@ class MyGameMain extends FlameGame {
     print(type);
 
     switch (type) {
-      case "\n金利調整":
-        print("金利調整ボタンクリック");
+      case "\n設定":
+        print("設定ボタンクリック");
         // 画面遷移
         Navigator.push(this._buildContext,
             MaterialPageRoute(builder: (context) => RegisterPage(context)));

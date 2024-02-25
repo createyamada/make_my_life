@@ -9,6 +9,8 @@ class Share {
   String? user_name = null;
   // ゲーム内誕生日
   String? birth_day = null;
+  // 言語コード
+  String? lang_code = null;
   // ゲーム内スコア
   int? score = null;
   // ゲーム内幸福度
@@ -38,6 +40,7 @@ class Share {
     this.date_counter = await (prefs.getInt('date_counter') ?? 0);
     this.user_name = await prefs.getString('user_name') ?? '';
     this.birth_day = await prefs.getString('birth_day') ?? '';
+    this.lang_code = await prefs.getString('lang_code') ?? 'ja';
     this.cost_of_living = await (prefs.getInt('cost_of_living') ?? 0);
     this.rate = await (prefs.getDouble('rate') ?? 0);
     this.bank_saving = await (prefs.getInt('bank_saving') ?? 0);
@@ -80,6 +83,16 @@ class Share {
   Future<void> setBirthDay(String date) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('birth_day', date);
+  }
+
+  /**
+	* プレイヤー誕生日設定
+	* @param String name
+	* @return void
+	*/
+  Future<void> setLangCode(String code) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('lang_code', code);
   }
 
   /**

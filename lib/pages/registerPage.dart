@@ -123,6 +123,26 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
 
                     SizedBox(height: 24), // 余白を追加
+                    DropdownButton<String>(
+                      value: selectedDate,
+                      hint: Text('日'),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedDate = newValue!;
+                        });
+                      },
+                      items: <String>[
+                        '日本語',
+                        '英語',
+                      ].map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                    SizedBox(height: 16), // 余白を追加
+
                     TextButton(
                       onPressed: () {
                         // ボタンが押された時の処理を追加

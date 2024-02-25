@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:make_my_life/pages/gameMainPage.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:make_my_life/share.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,10 +28,14 @@ class TitlePage extends StatefulWidget {
 }
 
 class _titlePageState extends State<TitlePage> {
+  //多言語化対応コード
+  Locale? _locale;
+
   /// 初期化処理
   @override
   void initState() {
     super.initState();
+    _loadSavedLanguage();
   }
 
   /// 削除処理
@@ -37,6 +44,64 @@ class _titlePageState extends State<TitlePage> {
     super.dispose();
   }
 
+  Future<Locale> _loadSavedLanguage() async {
+    // データ保存用インスタンス生成
+    Share share = Share();
+    // 設定情報を取得
+    await share.getSetting();
+    return Locale(share.lang_code ?? 'ja');
+  }
+
+  void _changeLanguage(String languageCode) async {
+    // データ保存用インスタンス生成
+    Share share = Share();
+    await share.setLangCode(languageCode); // 言語設定を保存します
+    Locale locale = await _loadSavedLanguage();
+    setState(() {
+      _locale = locale;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO:temp
+    _locale = Locale('ja');
+    // TODO:temp
+    if (_locale == null) {
+      // Localeがまだ読み込まれていない場合は、ローディングスピナーを表示します
+      return CircularProgressIndicator();
+    } else {
+      return MaterialApp(
+        locale: _locale,
+        localizationsDelegates: [
+          // AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+        ],
+        supportedLocales: [
+          Locale('en'),
+          Locale('ja'),
+        ],
+        home: MyHomePage(
+          title: 'Flutter Demo Home Page',
+          onLanguageChanged: _changeLanguage,
+        ),
+      );
+    }
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  final String title;
+  final ValueChanged<String> onLanguageChanged;
+
+  MyHomePage({Key? key, required this.title, required this.onLanguageChanged})
+      : super(key: key);
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
   /// ウィジェット生成
   @override
   Widget build(BuildContext context) {

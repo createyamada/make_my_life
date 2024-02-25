@@ -85,7 +85,7 @@ class MyGambling extends FlameGame {
 
     // 背景を追加
     myWorld = MyWorld('back.png', viewSize);
-    await add(world!);
+    await add(myWorld!);
 
     // 競馬ボタンを追加する
     horseRacingButton = MyButton(
